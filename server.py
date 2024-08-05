@@ -13,3 +13,6 @@ def sent_detector():
 
     # Return a formatted string with the sentiment label and score
     return formatted_text
+
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=4000)
