@@ -1,4 +1,5 @@
 import requests
+import json
 
 def emotion_detector(text_to_analyse):
     # URL of the emotion detection service
@@ -15,6 +16,22 @@ def emotion_detector(text_to_analyse):
 
     # Parsing the response from the API
     formatted_response = response.text
-    print(response.text)
+
+    # Parsing the response to json from the API
+    json_format = json.loads(formatted_response)
+    # print(json_format)
+    larger_value = 0
+    emotions = {}
+
+    # Defining the dominant emotion
+    for emotion in json_format["emotionPredictions"][0]["emotion"]:
+        if larger_value < json_format["emotionPredictions"][0]["emotion"][emotion]:
+            larger_value = json_format["emotionPredictions"][0]["emotion"][emotion]
+            dominant_emotion = emotion
+        emotions[emotion] = json_format["emotionPredictions"][0]["emotion"][emotion]
+
     
-    return formatted_response
+    # print("The Dominant emotion is: "+ dominant_emotion, json_format["emotionPredictions"][0]["emotion"][dominant_emotion])
+    emotions["dominant_emotion"] = dominant_emotion
+    # print(emotions)
+    return emotions
