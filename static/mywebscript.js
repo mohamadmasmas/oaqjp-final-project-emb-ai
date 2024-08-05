@@ -5,7 +5,7 @@ let RunSentimentAnalysis = ()=>{
     xhttp.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
             document.getElementById("system_response").innerHTML = xhttp.responseText;
-        }else if (this.status == 200){
+        }else if (this.status == 400){
             document.getElementById("system_response").innerHTML = xhttp.responseText;
         }
     };

@@ -14,29 +14,26 @@ def emotion_detector(text_to_analyse):
     # Sending a POST request to the emotion detector API
     response = requests.post(url, json=myobj, headers=header)
 
-    # Parsing the response from the API
-    formatted_response = response.text
-
-    # Parsing the response to json from the API
-    json_format = json.loads(formatted_response)
-    # print(json_format)
-    larger_value = 0
     emotions = {}
+    if response.status_code == 200:
+        # Parsing the response from the API
+        formatted_response = response.text
 
-    # Defining the dominant emotion
-    for emotion in json_format["emotionPredictions"][0]["emotion"]:
-        if larger_value < json_format["emotionPredictions"][0]["emotion"][emotion]:
-            larger_value = json_format["emotionPredictions"][0]["emotion"][emotion]
-            dominant_emotion = emotion
-        emotions[emotion] = json_format["emotionPredictions"][0]["emotion"][emotion]
+        # Parsing the response to json from the API
+        json_format = json.loads(formatted_response)
+        # print(json_format)
+        larger_value = 0
 
-    
-    # print("The Dominant emotion is: "+ dominant_emotion, json_format["emotionPredictions"][0]["emotion"][dominant_emotion])
-    emotions["dominant_emotion"] = dominant_emotion
+        # Defining the dominant emotion
+        for emotion in json_format["emotionPredictions"][0]["emotion"]:
+            if larger_value < json_format["emotionPredictions"][0]["emotion"][emotion]:
+                larger_value = json_format["emotionPredictions"][0]["emotion"][emotion]
+                dominant_emotion = emotion
+            emotions[emotion] = json_format["emotionPredictions"][0]["emotion"][emotion]
+            emotions["dominant_emotion"] = dominant_emotion
 
-    if response.status_code != 200:
-        emotions = None
+    elif response.status_code == 400:
+        emotions = json.loads('{"anger": "None", "disgust": "None", "fear": "None", "joy": "None", "sadness": "None", "dominant_emotion": "None"}')
+        return emotions
 
     return emotions
-
-emotion_detector("I love football")
