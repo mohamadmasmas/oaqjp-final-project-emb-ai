@@ -33,5 +33,7 @@ def emotion_detector(text_to_analyse):
     
     # print("The Dominant emotion is: "+ dominant_emotion, json_format["emotionPredictions"][0]["emotion"][dominant_emotion])
     emotions["dominant_emotion"] = dominant_emotion
-    # print(emotions)
+    print("For the given statement, the system response is" + str(emotions)[1:len(str(emotions))-1]+ ". The dominant emotion is "+emotions["dominant_emotion"])
     return emotions
+
+emotion_detector("I love football")
